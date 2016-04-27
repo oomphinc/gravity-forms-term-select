@@ -1,0 +1,16 @@
+{
+    "name": "oomphinc/gravity-forms-term-select",
+    "description": "Adds a field type that allows for selecting terms when creating posts.",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stephen Beemsterboer",
+            "homepage": "https://github.com/balbuf",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    }
+}
