@@ -7,6 +7,7 @@ Gravity Forms Term Select main plugin class
 - option to allow new terms
 - additional options available thru chosen
 - can we use the chosen version bundled with GF? will our copy conflict?
+- do we need any tool tips?
 */
 
 namespace OomphInc\GFormsTermSelect;
@@ -24,7 +25,6 @@ class Plugin {
 		add_filter( 'gform_field_type_title', [ __CLASS__, 'field_title' ] );
 		add_filter( 'gform_field_input', [ __CLASS__, 'field' ], 10, 5 );
 		add_action( 'gform_field_standard_settings', [ __CLASS__, 'settings' ], 10, 2 );
-		add_filter( 'gform_tooltips', [ __CLASS__, 'add_tooltips' ] );
 		add_action( 'gform_editor_js_set_default_values', [ __CLASS__, 'field_edit_defaults' ] );
 		add_action( 'gform_editor_js', [ __CLASS__, 'editor_js' ] );
 		add_action( 'gform_enqueue_scripts', [ __CLASS__, 'enqueue_scripts' ], 10, 2 );
@@ -36,7 +36,7 @@ class Plugin {
 	/**
 	 * Add a new button to the field types add panel
 	 * @param  array $field_groups array of field groups which each contain buttons for fields
-	 * @gform_add_field_buttons
+	 * @filter gform_add_field_buttons
 	 */
 	static function add_field_buttons( $field_groups ) {
 		foreach ( $field_groups as &$group ) {
@@ -135,7 +135,6 @@ class Plugin {
 					?>
 					</select>
 				</label>
-				<?php //gform_tooltip( 'geo_field' ); ?>
 				<label for="term_select_max">
 					Maximum Selected Terms
 					<input type="text" id="term_select_max" onkeyup="SetFieldProperty('termSelectMax', this.value);" size="4">
@@ -143,14 +142,6 @@ class Plugin {
 			</li>
 		<?php
 		}
-	}
-
-	/**
-	 * @filter gform_tooltips
-	 */
-	static function add_tooltips( $tooltips ) {
-		//$tooltips['geo_field'] = '<h6>Places Field</h6>Enter a field that would be returned from a Google Places result to be populated upon selection of a result.';
-		return $tooltips;
 	}
 
 	/**
