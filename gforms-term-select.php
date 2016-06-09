@@ -3,7 +3,7 @@
 Plugin Name: Gravity Forms Term Select
 Description: Adds a field type that allows for selecting terms when creating posts.
 Author: Stephen Beemsterboer @ Oomph, Inc.
-Version: 0.9
+Version: 0.9.1
 Author URI: http://www.oomphinc.com/
 License: MIT
 	The MIT License (MIT)
