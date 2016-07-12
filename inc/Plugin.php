@@ -31,7 +31,10 @@ class Plugin {
 		add_action( 'gform_after_submission', [ __CLASS__, 'after_submission' ], 1, 2 );
 		add_filter( 'gform_save_field_value', [ __CLASS__, 'save_field_value' ], 10, 5 );
 		add_action( 'gform_update_post/setup_form', [ __CLASS__, 'capture_post_id' ] );
-		add_filter( 'gform_entry_field_value', [ __CLASS__, 'display_value' ], 10, 4 );
+		add_action( 'gform_loaded', function() {
+			require __DIR__ . '/TermSelectField.php';
+			\GF_Fields::register( new TermSelectField );
+		} );
 	}
 
 	/**
@@ -243,25 +246,6 @@ class Plugin {
 		if ( !empty( $data['post_id'] ) ) {
 			self::$post_id = $data['post_id'];
 		}
-	}
-
-	/**
-	 * Filter the display value for form entries.
-	 *
-	 * @filter gform_entry_field_value
-	 */
-	static function display_value( $display_value, $field, $lead, $form ) {
-		if ( self::field_is_this( $field ) && !empty( $lead[ $field->id ] ) ) {
-			// grab the term objects associated with the selected term IDs
-			$terms = get_terms( [
-				'hide_empty' => false,
-				'taxonomy' => $field->termSelectTax,
-				'include' => $lead[ $field->id ],
-			] );
-			// pluck out the display names
-			$display_value = implode( ', ', wp_list_pluck( $terms, 'name' ) );
-		}
-		return $display_value;
 	}
 
 }
