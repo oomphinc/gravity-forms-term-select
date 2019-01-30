@@ -29,7 +29,6 @@ class Plugin {
 		add_action( 'gform_editor_js', [ __CLASS__, 'editor_js' ] );
 		add_action( 'gform_enqueue_scripts', [ __CLASS__, 'enqueue_scripts' ], 10, 2 );
 		add_action( 'gform_after_submission', [ __CLASS__, 'after_submission' ], 1, 2 );
-		add_filter( 'gform_save_field_value', [ __CLASS__, 'save_field_value' ], 10, 5 );
 		add_action( 'gform_update_post/setup_form', [ __CLASS__, 'capture_post_id' ] );
 		add_action( 'gform_loaded', function() {
 			require __DIR__ . '/TermSelectField.php';
@@ -215,25 +214,6 @@ class Plugin {
 				wp_set_object_terms( $entry['post_id'], $term_ids, $field->termSelectTax, false );
 			}
 		}
-	}
-
-	/**
-	 * Intercept fields as they are being saved.
-	 *
-	 * @filter gform_save_field_value
-	 */
-	static function save_field_value( $value, $entry, $field, $form, $input_id ) {
-		// @todo: will post_id be set yet if this is a new post?
-		if ( !self::field_is_this( $field ) ) {
-			return $value;
-		}
-		$term_ids = (array) $value;
-		// the front end should have forced this max, but let's be sure
-		if ( !empty( $field->termSelectMax ) ) {
-			$term_ids = array_slice( $term_ids, 0, $field->termSelectMax );
-		}
-		// save as comma delimited values (so it is db field friendly)
-		return implode( ',', $term_ids );
 	}
 
 	/**
