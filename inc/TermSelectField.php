@@ -45,4 +45,11 @@ class TermSelectField extends \GF_Field {
 		}
 	}
 
+	/**
+	 * We expect the value to be an array.
+	 */
+	function is_value_submission_array() {
+		return true;
+	}
+
 }
